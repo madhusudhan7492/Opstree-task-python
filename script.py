@@ -6,8 +6,7 @@
 
 import boto3
 
-client = boto3.client('ec2', aws_access_key_id="AKIASOZVOLNMTT7PODVH",
-    aws_secret_access_key="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")
+client = boto3.client('ec2')
 
 
 # In[4]:
