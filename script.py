@@ -58,7 +58,8 @@ for instance in Instance_Id:
                 start_response = client.start_instances(InstanceIds = [instance])
                 time.sleep(25)
                 current_state = start_response['StartingInstances'][0]['CurrentState']['Name']
-                file1 = subprocess.run(["ansible-playbook","main.yml"])
+                # ansible-playbook sample.yml -l "hostname" -e "ansible_user=user"
+                file1 = subprocess.run(["ansible-playbook","main.yml","-l","hostname","-e","ansible_user=ansadmin"])
                 print(file1)
 
             
