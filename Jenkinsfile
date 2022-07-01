@@ -12,11 +12,20 @@ pipeline {
     }
 
     stage('Run python script') {
-        steps{
-      withCredentials([file(credentialsId: 'aws-creds')]) {
-        sh '/usr/bin/python3 script.py'
-      }
+      steps {
+
+        withCredentials([
+          [
+            $class: 'AmazonWebServicesCredentialsBinding',
+            credentialsId: "aws-creds",
+            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+          ]
+        ]) {
+          sh '/usr/bin/python3 script.py'
         }
+
+      }
     }
 
   }
