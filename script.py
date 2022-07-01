@@ -47,7 +47,7 @@ for instance in Instance_Id:
     for state in response['StoppingInstances']:
         current_state = state['CurrentState']['Name']
         print("After stopping current state is:: ",current_state)
-        while current_state == "stopping":
+        while current_state == "stopping" or current_state == "stopped":
             time.sleep(25)
             modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':'t2.micro'})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
