@@ -12,8 +12,7 @@ pipeline {
     }
 
         stage('Run Python script') {
-            steps {
-                with(credentials: 'aws-creds', region: 'us-east-1') {
+            script {
                     sh '/usr/bin/python3 script.py'
                 }
             }
