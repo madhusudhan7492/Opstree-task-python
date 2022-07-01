@@ -1,0 +1,19 @@
+- name: Install httpd
+  hosts: dev
+  become: yes
+  tasks:
+    - name: Ensure httpd is installed
+      yum:
+        name: httpd
+        state: installed
+    - name: start httpd service
+      service:
+        name: httpd
+        state: started
+    - name: checking httpd service status
+      command: systemctl status httpd
+      register: result
+      ignore_errors: yes
+    - name: showing report
+      debug:
+        var: result
