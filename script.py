@@ -59,7 +59,7 @@ for instance in Instance_Id:
                 time.sleep(25)
                 current_state = start_response['StartingInstances'][0]['CurrentState']['Name']
                 # ansible-playbook sample.yml -l "hostname" -e "ansible_user=user"
-                file1 = subprocess.run(["ansible-playbook","main.yml","-l","hostname","-e","ansible_user=ansadmin"])
+                file1 = subprocess.run(["ansible-playbook","main.yml","-l","dev","-e","ansible_user=ansadmin"])
                 print(file1)
 
             
