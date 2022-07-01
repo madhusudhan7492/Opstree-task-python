@@ -6,7 +6,7 @@
 
 import boto3
 
-client = boto3.client('ec2')
+client = boto3.client('ec2',region='us-east-1')
 
 
 # In[4]:
