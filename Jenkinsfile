@@ -11,10 +11,12 @@ pipeline {
       }
     }
 
-    node {
+    stage('Run python script') {
+        steps{
       withCredentials([file(credentialsId: 'aws-creds')]) {
         sh '/usr/bin/python3 script.py'
       }
+        }
     }
 
   }
