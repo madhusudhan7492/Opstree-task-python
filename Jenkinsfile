@@ -12,9 +12,13 @@ pipeline {
     }
 
         stage('Run Python script') {
-            script {
+            steps{
+                  script {
                     sh '/usr/bin/python3 script.py'
                 }
             }
+
+            }
+          
         }
     }
