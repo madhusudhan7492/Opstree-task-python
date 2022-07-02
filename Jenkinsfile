@@ -23,5 +23,24 @@ pipeline {
       }
     }
 
+    stage('run ansible playbook') {
+      steps {
+        //here main.yml file is in the cloned repository
+        ansiblePlaybook credentialsId: 'ansadmin', disableHostKeyChecking: true, installation: 'ansible', playbook: 'main.yml'
+      }
+    }
+
+     stage('Run flipback script') {
+      steps {
+
+        withCredentials([
+          [$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']
+        ]) {
+          sh '/usr/bin/python3 -u flipback.py'
+        }
+
+      }
+    }
+
   }
 }
