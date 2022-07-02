@@ -3,10 +3,11 @@
 import time
 import boto3
 from texttable import Texttable
-
+import os
 
 client = boto3.client('ec2',region_name='us-east-1')
 describe_instance =client.describe_instances()
+OLD_INSTANCE_TYPE = os.getenv('OLD_INSTANCE_TYPE')
 
 
 Instance_Id = []
@@ -34,7 +35,6 @@ for instance in Instance_Id:
     response = client.stop_instances(InstanceIds=[instance])
     for state in response['StoppingInstances']:
         describe_instance_ = client.describe_instances(InstanceIds=[instance])
-        print(describe_instance_)
         current_state_0 = state['CurrentState']['Name']
         print("*"*60)
         print("<<<<After Stopping the instance>>>>")
@@ -42,7 +42,7 @@ for instance in Instance_Id:
         print(t.draw())
         while current_state_0 == "stopping" or current_state_0 == "stopped":
             time.sleep(35)
-            modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':Instance_Type})
+            modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':OLD_INSTANCE_TYPE})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
                 describe_instance_1 = client.describe_instances(InstanceIds=[instance])
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])

@@ -5,7 +5,7 @@ import time
 from texttable import Texttable
 import boto3
 import os
-InstanceType = os.getenv("InstanceType")
+InstanceType = str(os.getenv("InstanceType")) #t2.nano
 
 client = boto3.client('ec2',region_name='us-east-1')
 describe_instance =client.describe_instances()
@@ -26,8 +26,7 @@ for i in describe_instance['Reservations']:
                 Instance_Type += j['InstanceType']
         print("*"*60)       
 
-
-# In[66]:
+os.environ['OLD_INSTANCE_TYPE'] = Instance_Type
 
 current_state = describe_instance_i['Reservations'][0]['Instances'][0]['State']['Name']
 
@@ -46,6 +45,7 @@ for instance in Instance_Id:
             time.sleep(35)
             modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':InstanceType})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
+                time.sleep(10)
                 describe_instance_1 = client.describe_instances(InstanceIds=[instance])
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])
                 current_state_1 = describe_current_state_instance['Reservations'][0]['Instances'][0]['State']['Name']
