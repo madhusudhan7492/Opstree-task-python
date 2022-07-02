@@ -23,7 +23,7 @@ for i in describe_instance['Reservations']:
                 print('Instance type of {} is {}'.format(j['InstanceId'], j['InstanceType']))
                 Instance_Id.append(j['InstanceId'])
                 Instance_Type += j['InstanceType']
-        print("*"*30)   
+        print("*"*60)   
 
 current_state = describe_instance_i['Reservations'][0]['Instances'][0]['State']['Name']
 t = Texttable()
@@ -35,7 +35,7 @@ for instance in Instance_Id:
     for state in response['StoppingInstances']:
         current_state = state['CurrentState']['Name']
         print("*"*60)
-        print("After Stopping the instance")
+        print("<<<<After Stopping the instance>>>>")
         t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
         print(t.draw())
         while current_state == "stopping" or current_state == "stopped":
@@ -45,11 +45,11 @@ for instance in Instance_Id:
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])
                 current_state = describe_current_state_instance['Reservations'][0]['Instances'][0]['State']['Name']
                 print("*"*60)
-                print("After changing the instance type")
+                print("<<<<After changing the instance type>>>>")
                 t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
                 print(t.draw())
                 print("*"*60)
-                print("Starting the instance")
+                print("<<<<Starting the instance>>>>")
                 start_response = client.start_instances(InstanceIds = [instance])
                 time.sleep(25)
                 current_state = start_response['StartingInstances'][0]['CurrentState']['Name']
