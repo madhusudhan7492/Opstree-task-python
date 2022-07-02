@@ -22,7 +22,7 @@ describe_instance =client.describe_instances()
 
 Instance_Id = []
 Instance_Type = ""
-describe_instance_i = ""
+describe_instance_i = {}
 for i in describe_instance['Reservations']:
     for j in i['Instances']:
         for tag in j['Tags']:
