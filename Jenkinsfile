@@ -17,7 +17,7 @@ pipeline {
         withCredentials([
           [$class: 'UsernamePasswordMultiBinding', credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']
         ]) {
-          sh '/usr/bin/python3 -u script.py $InstanceType'
+          sh '/usr/bin/python3 -u script.py'
         }
 
       }
