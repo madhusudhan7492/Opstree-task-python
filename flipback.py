@@ -17,6 +17,7 @@ for i in describe_instance['Reservations']:
     for j in i['Instances']:
         for tag in j['Tags']:
             if tag['Value'] == "Testing_Server":
+                Instance_Name += tag['Value']
                 describe_instance_i = client.describe_instances(InstanceIds=[j['InstanceId']])
                 print('{} has tag {}'.format(j['InstanceId'], tag['Value']))
                 print('Instance type of {} is {}'.format(j['InstanceId'], j['InstanceType']))
