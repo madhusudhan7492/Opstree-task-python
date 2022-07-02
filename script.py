@@ -49,7 +49,7 @@ for instance in Instance_Id:
         print("After stopping current state is:: ",current_state)
         while current_state == "stopping" or current_state == "stopped":
             time.sleep(25)
-            modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':'$InstanceType'})
+            modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':$InstanceType})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])
                 current_state = describe_current_state_instance['Reservations'][0]['Instances'][0]['State']['Name']
