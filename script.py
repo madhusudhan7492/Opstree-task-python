@@ -37,27 +37,27 @@ for instance in Instance_Id:
     
     response = client.stop_instances(InstanceIds=[instance])
     for state in response['StoppingInstances']:
-        current_state = state['CurrentState']['Name']
+        current_state_0 = state['CurrentState']['Name']
         print("*"*60)
         print("<<<<After Stopping the instance>>>>")
-        t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
+        t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state_0]])
         print(t.draw())
-        while current_state == "stopping" or current_state == "stopped":
+        while current_state_0 == "stopping" or current_state_0 == "stopped":
             time.sleep(35)
             modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':InstanceType})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])
-                current_state = describe_current_state_instance['Reservations'][0]['Instances'][0]['State']['Name']
+                current_state_1 = describe_current_state_instance['Reservations'][0]['Instances'][0]['State']['Name']
                 print("*"*60)
                 print("<<<<After changing the instance type>>>>")
-                t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
+                t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state_1]])
                 print(t.draw())
                 print("*"*60)
                 print("<<<<Starting the instance>>>>")
                 start_response = client.start_instances(InstanceIds = [instance])
                 time.sleep(35)
-                current_state = start_response['StartingInstances'][0]['CurrentState']['Name']
-                t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
+                current_state_2 = start_response['StartingInstances'][0]['CurrentState']['Name']
+                t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state_2]])
                 print(t.draw())
                 print("*"*60)
 
