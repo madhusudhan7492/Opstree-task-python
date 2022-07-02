@@ -61,3 +61,4 @@ for instance in Instance_Id:
                 t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,describe_instance_1['Reservations'][0]['Instances'][0]['InstanceType'],current_state_2]])
                 print(t.draw())
                 print("*"*60)
+                current_state_0 = current_state_2
