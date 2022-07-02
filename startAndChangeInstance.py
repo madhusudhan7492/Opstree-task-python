@@ -24,9 +24,9 @@ for i in describe_instance['Reservations']:
                 print('Instance type of {} is {}'.format(j['InstanceId'], j['InstanceType']))
                 Instance_Id.append(j['InstanceId'])
                 Instance_Type += j['InstanceType']
+                os.environ['OLD_INSTANCE_TYPE'] = j['InstanceType']
         print("*"*60)       
 
-os.environ['OLD_INSTANCE_TYPE'] = Instance_Type
 
 current_state = describe_instance_i['Reservations'][0]['Instances'][0]['State']['Name']
 
