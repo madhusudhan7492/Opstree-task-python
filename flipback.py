@@ -39,7 +39,7 @@ for instance in Instance_Id:
         t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
         print(t.draw())
         while current_state == "stopping" or current_state == "stopped":
-            time.sleep(25)
+            time.sleep(35)
             modify_instance = client.modify_instance_attribute(InstanceId=instance,InstanceType={'Value':Instance_Type})
             if (modify_instance['ResponseMetadata']['HTTPStatusCode'] == 200):
                 describe_current_state_instance = client.describe_instances(InstanceIds=[instance])
@@ -51,7 +51,7 @@ for instance in Instance_Id:
                 print("*"*60)
                 print("<<<<Starting the instance>>>>")
                 start_response = client.start_instances(InstanceIds = [instance])
-                time.sleep(25)
+                time.sleep(35)
                 current_state = start_response['StartingInstances'][0]['CurrentState']['Name']
                 t.add_rows([['Name','Instance_Id', 'Instance_Type','Instance_State'], [Instance_Name,instance ,Instance_Type,current_state]])
                 print(t.draw())
