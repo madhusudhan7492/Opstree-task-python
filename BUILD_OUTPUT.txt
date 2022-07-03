@@ -1,0 +1,210 @@
+Started by user Madhu Sudhan
+Obtained Jenkinsfile from git https://github.com/madhusudhan7492/Opstree-task-python.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Opstree-python-pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential Github_creds
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Opstree-python-pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/madhusudhan7492/Opstree-task-python.git # timeout=10
+Fetching upstream changes from https://github.com/madhusudhan7492/Opstree-task-python.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.32.0'
+using GIT_ASKPASS to set credentials Github credentials
+ > git fetch --tags --force --progress -- https://github.com/madhusudhan7492/Opstree-task-python.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 92d656bd6aafb7b699ef38d50bc031cb2d317820 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 92d656bd6aafb7b699ef38d50bc031cb2d317820 # timeout=10
+Commit message: "updated script files"
+ > git rev-list --no-walk aab44acc5ab5ae81018ff59a65fb53169150bf19 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential Github_creds
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Opstree-python-pipeline/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/madhusudhan7492/Opstree-task-python.git # timeout=10
+Fetching upstream changes from https://github.com/madhusudhan7492/Opstree-task-python.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.32.0'
+using GIT_ASKPASS to set credentials Github credentials
+ > git fetch --tags --force --progress -- https://github.com/madhusudhan7492/Opstree-task-python.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 92d656bd6aafb7b699ef38d50bc031cb2d317820 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 92d656bd6aafb7b699ef38d50bc031cb2d317820 # timeout=10
+Commit message: "updated script files"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Start and Change Instance Type script)
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ /usr/bin/python3 -u startAndChangeInstance.py
+************************************************************
+i-0f244234386bc6da7 has tag Testing_Server
+Instance type of i-0f244234386bc6da7 is t2.micro
+************************************************************
+************************************************************
+<<<<After Stopping the instance>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | stopping       |
++----------------+---------------------+---------------+----------------+
+************************************************************
+<<<<After changing the instance type>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | stopping       |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | stopped        |
++----------------+---------------------+---------------+----------------+
+************************************************************
+<<<<Starting the instance>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | stopping       |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | stopped        |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | pending        |
++----------------+---------------------+---------------+----------------+
+************************************************************
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run ansible playbook)
+[Pipeline] ansiblePlaybook
+[Opstree-python-pipeline] $ sshpass ******** /usr/bin/ansible-playbook main.yml -u ansadmin -k
+
+PLAY [Install httpd] ***********************************************************
+
+TASK [Gathering Facts] *********************************************************
+[WARNING]: Platform linux on host 172.31.18.183 is using the discovered Python
+interpreter at /usr/bin/python, but future installation of another Python
+interpreter could change this. See https://docs.ansible.com/ansible/2.9/referen
+ce_appendices/interpreter_discovery.html for more information.
+ok: [172.31.18.183]
+
+TASK [Ensure httpd is installed] ***********************************************
+ok: [172.31.18.183]
+
+TASK [start httpd service] *****************************************************
+changed: [172.31.18.183]
+
+TASK [checking httpd service status] *******************************************
+changed: [172.31.18.183]
+
+TASK [showing report] **********************************************************
+ok: [172.31.18.183] => {
+    "result": {
+        "changed": true, 
+        "cmd": [
+            "systemctl", 
+            "status", 
+            "httpd"
+        ], 
+        "delta": "0:00:00.046903", 
+        "end": "2022-07-03 07:12:52.676833", 
+        "failed": false, 
+        "rc": 0, 
+        "start": "2022-07-03 07:12:52.629930", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "? httpd.service - The Apache HTTP Server\n   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)\n   Active: active (running) since Sun 2022-07-03 07:12:52 UTC; 594ms ago\n     Docs: man:httpd.service(8)\n Main PID: 3494 (httpd)\n   Status: \"Processing requests...\"\n   CGroup: /system.slice/httpd.service\n           ??3494 /usr/sbin/httpd -DFOREGROUND\n           ??3496 /usr/sbin/httpd -DFOREGROUND\n           ??3497 /usr/sbin/httpd -DFOREGROUND\n           ??3498 /usr/sbin/httpd -DFOREGROUND\n           ??3499 /usr/sbin/httpd -DFOREGROUND\n           ??3500 /usr/sbin/httpd -DFOREGROUND\n\nJul 03 07:12:51 ip-172-31-18-183.ec2.internal systemd[1]: Starting The Apache HTTP Server...\nJul 03 07:12:52 ip-172-31-18-183.ec2.internal systemd[1]: Started The Apache HTTP Server.", 
+        "stdout_lines": [
+            "? httpd.service - The Apache HTTP Server", 
+            "   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)", 
+            "   Active: active (running) since Sun 2022-07-03 07:12:52 UTC; 594ms ago", 
+            "     Docs: man:httpd.service(8)", 
+            " Main PID: 3494 (httpd)", 
+            "   Status: \"Processing requests...\"", 
+            "   CGroup: /system.slice/httpd.service", 
+            "           ??3494 /usr/sbin/httpd -DFOREGROUND", 
+            "           ??3496 /usr/sbin/httpd -DFOREGROUND", 
+            "           ??3497 /usr/sbin/httpd -DFOREGROUND", 
+            "           ??3498 /usr/sbin/httpd -DFOREGROUND", 
+            "           ??3499 /usr/sbin/httpd -DFOREGROUND", 
+            "           ??3500 /usr/sbin/httpd -DFOREGROUND", 
+            "", 
+            "Jul 03 07:12:51 ip-172-31-18-183.ec2.internal systemd[1]: Starting The Apache HTTP Server...", 
+            "Jul 03 07:12:52 ip-172-31-18-183.ec2.internal systemd[1]: Started The Apache HTTP Server."
+        ]
+    }
+}
+
+PLAY RECAP *********************************************************************
+172.31.18.183              : ok=5    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run flipback and start instance script)
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ /usr/bin/python3 -u flipbackAndStartInstance.py
+************************************************************
+i-0f244234386bc6da7 has tag Testing_Server
+Instance type of i-0f244234386bc6da7 is t2.nano
+************************************************************
+STOPPING THE INSTANCE AND CHANGING THE INSTANCE TYPE TO IT'S ORIGINAL
+************************************************************
+<<<<After Stopping the instance>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | stopping       |
++----------------+---------------------+---------------+----------------+
+************************************************************
+<<<<After changing the instance type>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | stopping       |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | stopped        |
++----------------+---------------------+---------------+----------------+
+************************************************************
+<<<<Starting the instance>>>>
++----------------+---------------------+---------------+----------------+
+|      Name      |     Instance_Id     | Instance_Type | Instance_State |
++================+=====================+===============+================+
+| Testing_Server | i-0f244234386bc6da7 | t2.nano       | stopping       |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | stopped        |
++----------------+---------------------+---------------+----------------+
+| Testing_Server | i-0f244234386bc6da7 | t2.micro      | pending        |
++----------------+---------------------+---------------+----------------+
+************************************************************
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
